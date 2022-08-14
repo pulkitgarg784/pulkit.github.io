@@ -209,6 +209,28 @@ body {
   line-height: 1.6;
   quotes: "“" "”" "‘" "’";
 }
+
+body.dark-theme {
+  --text-color: #eee;
+  --bkg-color: #181e27;
+  --bkg-color2: #181e27;
+  --link-color: 240, 84, 84;
+  --accent-color: #3c546c;
+  --accent-color2: #f05454;
+}
+
+@media (prefers-color-scheme: dark) {
+  /* defaults to dark theme */
+  body.light-theme {
+    --text-color: #052d3f;
+    --bkg-color: #e8fdf5;
+    --bkg-color2: #fafafa;
+    --link-color: 245, 215, 110;
+    --accent-color: #f5c0a2;
+    --accent-color2: #bcebd4;
+  }
+}
+
 .font-secondary,
 .header__affiliation,
 .resume__item-links,
@@ -228,18 +250,18 @@ h1 {
   font-weight: bold;
 }
 body {
-  background-color: #e8fdf5;
-  color: #052d3f;
+  background-color: var(--bkg-color);
+  color: var(--text-color);
   overflow-x: hidden;
 }
 a {
   text-decoration: none;
-  color: #000;
-  background: rgba(245, 215, 110, 0.5);
+  color: var(--text-color);
+  background: rgba(var(--link-color), 0.5);
   transition: all linear 0.2s;
 }
 a:hover {
-  background: #f5d76e;
+  background: rgba(var(--link-color), 1);
   text-decoration: none;
 }
 a.no-highlight {
@@ -300,7 +322,7 @@ section p:last-child {
 }
 .section-title::after {
   content: "";
-  background-color: #f5c0a2;
+  background-color: var(--accent-color);
   height: 5px;
   position: absolute;
   top: 50%;
@@ -310,7 +332,7 @@ section p:last-child {
   z-index: -1;
 }
 .about {
-  background-color: #fafafa;
+  background-color: var(--bkg-color2);
 }
 .about h3 {
   letter-spacing: 1px;
@@ -346,7 +368,7 @@ section p:last-child {
   }
 }
 .teaching {
-  background-color: #fff;
+  background-color: var(--bkg-color2);
 }
 .teaching__course {
   margin-bottom: 20px;
@@ -483,7 +505,7 @@ section p:last-child {
 }
 .header__title::after {
   content: "";
-  background-color: #f5c0a2;
+  background-color: var(--accent-color);
   height: 10px;
   position: absolute;
   top: 50%;
@@ -563,7 +585,7 @@ section p:last-child {
   transform: rotate(-45deg);
   height: 150px;
   width: 150px;
-  background-color: #bcebd4;
+  background-color: var(--accent-color2);
   z-index: -1;
 }
 .header__photo-wrapper::after {
@@ -571,7 +593,7 @@ section p:last-child {
   position: absolute;
   top: 4%;
   left: 6%;
-  background-color: #f5c0a2;
+  background-color: var(--accent-color);
   width: 100%;
   height: 100%;
   z-index: -1;
@@ -621,7 +643,7 @@ section p:last-child {
   }
 }
 .dark {
-  background-color: #202631;
+  background-color: #191b1f;
   color: #fff;
 }
 .dark a {

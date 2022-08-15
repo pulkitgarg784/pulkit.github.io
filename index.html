@@ -58,10 +58,10 @@
                         <a data-scroll="data-scroll" href="#coursework">Coursework</a>
                     </li>
                     <li>
-                        <a data-scroll="data-scroll" href="https://www.artstation.com/pulkitgarg">My Art</a>
+                        <a data-scroll="data-scroll" href="https://www.artstation.com/pulkitgarg">Art</a>
                     </li>
                     <li>
-                        <a data-scroll="data-scroll" href="https://pulkitgarg.itch.io/">My Games</a>
+                        <a data-scroll="data-scroll" href="https://pulkitgarg.itch.io/">Games</a>
                     </li>
                 </ul>
             </nav>
@@ -389,16 +389,16 @@
         if (document.body.classList.contains("dark-theme")) {
             document.body.classList.remove("dark-theme");
             document.body.classList.add("light-theme");
-            btn.classList.remove("fa-sun");
-            btn.classList.add("fa-moon");
+            btn.classList.remove("fa-moon");
+            btn.classList.add("fa-sun");
 
             localStorage.setItem("theme", "light-theme");
         }
         else if (document.body.classList.contains("light-theme")) {
             document.body.classList.remove("light-theme");
             document.body.classList.add("dark-theme");
-            btn.classList.remove("fa-moon");
-            btn.classList.add("fa-sun");
+            btn.classList.remove("fa-sun");
+            btn.classList.add("fa-moon");
 
             localStorage.setItem("theme", "dark-theme");
         }

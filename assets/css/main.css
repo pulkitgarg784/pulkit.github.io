@@ -367,18 +367,35 @@ section p:last-child {
     width: 85%;
   }
 }
+details {
+  display: inline-block;
+}
+
+summary {
+  display: inline;
+  cursor: pointer;
+}
 .teaching {
   background-color: var(--bkg-color2);
 }
 .teaching__course {
   margin-bottom: 20px;
 }
+
 .teaching__course:last-of-type {
   margin-bottom: 0;
 }
 .teaching__course-title {
   font-weight: bold;
   font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--text-color);
+  background: rgba(var(--link-color), 0.5);
+  transition: all linear 0.2s;
+}
+.teaching__course-title:hover {
+  background: rgba(var(--link-color), 1);
+  text-decoration: none;
 }
 .teaching__course-period {
   margin-bottom: 5px;

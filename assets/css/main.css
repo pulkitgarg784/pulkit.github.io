@@ -378,6 +378,14 @@ summary {
 .teaching {
   background-color: var(--bkg-color2);
 }
+.course-list {
+  columns: 2;
+}
+@media (max-width: 500px) {
+  .course-list {
+    columns: 1;
+  }
+}
 .teaching__course {
   margin-bottom: 20px;
 }

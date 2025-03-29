@@ -13,11 +13,12 @@
     <link rel="stylesheet" href="assets/css/main.css" />
     <script async="async" defer="defer" src="assets/lib/smooth-scroll.js"></script>
     <script src="https://kit.fontawesome.com/e715323ef8.js" crossorigin="anonymous"></script>
+    <script src="assets/js/theme-switcher.js" defer></script>
 </head>
 
 <body>
     <header class="header container">
-        <button class="btn-toggle fa fa-moon"></button>
+        <button class="btn-toggle fa fa-moon" aria-label="Switch theme" title="Switch theme"></button>
 
         <div class="header__intro">
             <h1 class="header__title">Pulkit Garg</h1>
@@ -55,13 +56,10 @@
                         <a data-scroll="data-scroll" href="#projects">Projects</a>
                     </li>
                     <li>
-                        <a data-scroll="data-scroll" href="#coursework">Coursework</a>
+                        <a href="https://www.artstation.com/pulkitgarg">Art</a>
                     </li>
                     <li>
-                        <a data-scroll="data-scroll" href="https://www.artstation.com/pulkitgarg">Art</a>
-                    </li>
-                    <li>
-                        <a data-scroll="data-scroll" href="https://pulkitgarg.itch.io/">Games</a>
+                        <a href="https://pulkitgarg.itch.io/">Games</a>
                     </li>
                 </ul>
             </nav>
@@ -371,7 +369,7 @@
 
     </main>
 </body>
-<footer class="footer dark">
+<footer class="footer">
     <div class="container">
         <section class="blurb">
             Made with ♥️ by Pulkit Garg. <a href="https://github.com/sliminality/sliminality.github.io">Website inspired
@@ -382,31 +380,4 @@
 <script defer="defer" type="text/javascript">
     smoothScroll.init();
 </script>
-<script>
-    if (localStorage.getItem("theme") == null) {
-        localStorage.setItem("theme", "light-theme");
-    }
-    document.body.classList.add(localStorage.getItem("theme"));
-
-    const btn = document.querySelector(".btn-toggle");
-    btn.addEventListener("click", function () {
-        if (document.body.classList.contains("dark-theme")) {
-            document.body.classList.remove("dark-theme");
-            document.body.classList.add("light-theme");
-            btn.classList.remove("fa-moon");
-            btn.classList.add("fa-sun");
-
-            localStorage.setItem("theme", "light-theme");
-        }
-        else if (document.body.classList.contains("light-theme")) {
-            document.body.classList.remove("light-theme");
-            document.body.classList.add("dark-theme");
-            btn.classList.remove("fa-sun");
-            btn.classList.add("fa-moon");
-
-            localStorage.setItem("theme", "dark-theme");
-        }
-
-    });</script>
-
 </html>

@@ -203,11 +203,51 @@ table {
   font-weight: 400;
   font-style: normal;
 }
+
+/* Base theme (light) */
+:root {
+  --text-color: #052d3f;
+  --bkg-color: #e8fdf5;
+  --bkg-color2: #fafafa;
+  --link-color: 245, 215, 110;
+  --accent-color: #f5c0a2;
+  --accent-color2: #bcebd4;
+}
+
+/* Dark theme override */
+body.dark-theme {
+  --text-color: #eee;
+  --bkg-color: #181e27;
+  --bkg-color2: #181e27;
+  --link-color: 240, 84, 84;
+  --accent-color: #3c546c;
+  --accent-color2: #f05454;
+}
+
+/* Follow system preference if no theme is explicitly set */
+@media (prefers-color-scheme: dark) {
+  body:not(.light-theme):not(.dark-theme) {
+    --text-color: #eee;
+    --bkg-color: #181e27;
+    --bkg-color2: #181e27;
+    --link-color: 240, 84, 84;
+    --accent-color: #3c546c;
+    --accent-color2: #f05454;
+  }
+}
+
+/* Add smooth transitions for theme switching */
 body {
   font-family: "Leitura News", "Palatino", "Georgia", "Times New Roman", serif;
   font-size: 16px;
   line-height: 1.6;
   quotes: "“" "”" "‘" "’";
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+a, .header__title::after, .section-title::after, 
+.header__photo-wrapper::before, .header__photo-wrapper::after {
+  transition: all 0.3s ease;
 }
 
 body.dark-theme {
@@ -217,6 +257,7 @@ body.dark-theme {
   --link-color: 240, 84, 84;
   --accent-color: #3c546c;
   --accent-color2: #f05454;
+  --accent-color3: #3c3c3c;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -228,6 +269,7 @@ body.dark-theme {
     --link-color: 245, 215, 110;
     --accent-color: #f5c0a2;
     --accent-color2: #bcebd4;
+    --accent-color3: #fffadd;
   }
 }
 
@@ -684,20 +726,32 @@ summary {
   font-size: 18px;
   border: none;
   outline: none;
-  background-color: #00000077;
+  background-color: var(--accent-color3);
+  color: var(--text-color);
   cursor: pointer;
   padding: 15px;
   border-radius: 10px;
+  width: 50px;
+  height: 50px;
   transition: 0.3s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
+
 .btn-toggle:hover {
   transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
+
+.btn-toggle:focus {
+  outline: 2px solid var(--text-color);
+}
+
 .btn-toggle.fa-moon {
   color: white;
 }
+
 .btn-toggle.fa-sun {
-  color: rgb(236, 208, 46);
+  color: #ffbb00;
 }
 
 .iframe-container {

@@ -1,52 +1,29 @@
-// Theme switcher functionality
-document.addEventListener('DOMContentLoaded', function() {
-  const toggleButton = document.querySelector(".btn-toggle");
-  
-  function setTheme(theme) {
-    if (theme === "dark-theme") {
-      document.body.classList.remove("light-theme");
-      document.body.classList.add("dark-theme");
-      toggleButton.classList.remove("fa-sun");
-      toggleButton.classList.add("fa-moon");
-      toggleButton.setAttribute("title", "Switch to light mode");
-      toggleButton.setAttribute("aria-label", "Switch to light mode");
-    } else {
-      document.body.classList.remove("dark-theme");
-      document.body.classList.add("light-theme");
-      toggleButton.classList.remove("fa-moon");
-      toggleButton.classList.add("fa-sun");
-      toggleButton.setAttribute("title", "Switch to dark mode");
-      toggleButton.setAttribute("aria-label", "Switch to dark mode");
-    }
-    localStorage.setItem("theme", theme);
-  }
+const button = document.querySelector(".btn-toggle");
+const icon = button.querySelector(".fa");
+const systemTheme = matchMedia("(prefers-color-scheme: dark)");
 
-  // Set initial theme
-  const savedTheme = localStorage.getItem("theme");
-  if (savedTheme) {
-    setTheme(savedTheme);
-  } else {
-    // Use system preference if no theme is saved
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme("dark-theme");
-    } else {
-      setTheme("light-theme");
-    }
-  }
+function setTheme(theme) {
+  const dark = theme === "dark-theme";
 
-  // Update theme when system preference changes (if user hasn't set a preference)
-  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    if (!localStorage.getItem("theme")) {
-      setTheme(e.matches ? "dark-theme" : "light-theme");
-    }
-  });
+  document.body.classList.toggle("dark-theme", dark);
+  document.body.classList.toggle("light-theme", !dark);
+  icon.classList.toggle("fa-moon", dark);
+  icon.classList.toggle("fa-sun", !dark);
 
-  // Toggle theme when button is clicked
-  toggleButton.addEventListener("click", function() {
-    if (document.body.classList.contains("dark-theme")) {
-      setTheme("light-theme");
-    } else {
-      setTheme("dark-theme");
-    }
-  });
+  const label = `Switch to ${dark ? "light" : "dark"} mode`;
+  button.title = label;
+  button.ariaLabel = label;
+}
+
+const savedTheme = localStorage.getItem("theme");
+setTheme(savedTheme || (systemTheme.matches ? "dark-theme" : "light-theme"));
+
+button.addEventListener("click", () => {
+  const theme = document.body.classList.contains("dark-theme") ? "light-theme" : "dark-theme";
+  localStorage.setItem("theme", theme);
+  setTheme(theme);
+});
+
+systemTheme.addEventListener("change", event => {
+  if (!localStorage.getItem("theme")) setTheme(event.matches ? "dark-theme" : "light-theme");
 });

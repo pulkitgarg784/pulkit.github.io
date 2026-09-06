@@ -133,14 +133,27 @@
   resize();
 
   let isVisible = true;
+  let inViewport = true;
   const io = new IntersectionObserver(
-    (entries) => { entries.forEach((e) => { isVisible = e.isIntersecting; }); },
+    (entries) => {
+      entries.forEach((e) => {
+        inViewport = e.isIntersecting;
+        isVisible = inViewport && !document.hidden;
+      });
+    },
     { threshold: 0.05 }
   );
   io.observe(mount);
 
   document.addEventListener("visibilitychange", () => {
-    if (document.hidden) isVisible = false;
+    if (document.hidden) {
+      isVisible = false;
+    } else {
+      // Returning to the tab: resume only if the hero is still on screen, and
+      // reset frame timing so the paused gap doesn't trip the low-fps guard.
+      isVisible = inViewport;
+      lastFrameTime = performance.now();
+    }
   });
 
 

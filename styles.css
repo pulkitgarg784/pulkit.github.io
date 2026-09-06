@@ -9,10 +9,11 @@
 
   --peach: #f5c0a2;
   --peach-soft: #fbe0d0;
-  --mint-deep: #9bd4b7;
+  --mint-deep: #cbf0dd;
 
+  --header-ink: #ec7754;
   --accent-ink: #b8632f;
-  --accent-ink-deep: #9c4f22;
+  --accent-ink-deep: rgb(216, 106, 59);
 
   --radius: 16px;
   --maxw: 1100px;
@@ -86,7 +87,7 @@ a:hover { text-decoration-color: currentColor; }
   letter-spacing: -0.01em; margin: 0 0 20px;
   color: var(--ink);
 }
-.hero__title em { font-style: normal; font-weight: 800; color: var(--accent-ink-deep); }
+.hero__title em { font-style: normal; font-weight: 800; color: var(--header-ink); }
 .hero__lead { max-width: 600px; color: var(--muted); font-size: clamp(1rem, 2.2vw, 1.15rem); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: 14px; margin: 20px 0 0; }
 .hero__socials { list-style: none; display: flex; flex-wrap: wrap; gap: 20px; margin-top: 26px; }

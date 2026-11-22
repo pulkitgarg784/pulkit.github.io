@@ -21,7 +21,7 @@
     emptyState.classList.toggle("is-visible", visible === 0);
     statusRegion.textContent = visible === 0
       ? "No projects match this filter."
-      : visible + " of " + rows.length + " events";
+      : visible + " of " + rows.length + " projects";
   }
 
   filters.forEach((btn) => {
@@ -57,62 +57,48 @@
   const pixelVal = document.getElementById("pixelVal");
   const pixelSwatch = document.getElementById("pixelSwatch");
   const frameTimeEl = document.getElementById("frameTime");
-  const timeline = document.getElementById("timeline");
-  const passTabs = document.getElementById("passTabs");
-  const railPasses = Array.from(document.querySelectorAll("#passList .event"));
   const channelBtns = Array.from(document.querySelectorAll(".channel"));
 
   const PASSES = [
-    { name: "Depth", eid: 12 },
-    { name: "Normals", eid: 18 },
-    { name: "Albedo", eid: 24 },
-    { name: "Ambient occlusion", eid: 31 },
-    { name: "Lighting (HDR)", eid: 38 },
-    { name: "Final (tonemapped)", eid: 45 }
+    { name: "Depth" },
+    { name: "Normals" },
+    { name: "Albedo" },
+    { name: "Ambient occlusion" },
+    { name: "Lighting" }
   ];
 
-  let pass = 5;
+  let pass = 4;
   const mask = [1, 1, 1, 0];
 
-  // mobile pass tabs mirror the rail
-  railPasses.forEach((b) => {
-    const clone = b.cloneNode(true);
-    passTabs.appendChild(clone);
+  // pass scrubber: a range input that snaps to each pass
+  const scrub = document.getElementById("passScrub");
+  const scrubTicks = document.getElementById("scrubTicks");
+  const SHORT = ["Depth", "Normals", "Albedo", "AO", "Lighting"];
+  scrub.max = String(PASSES.length - 1);
+  const ticks = SHORT.map((label, i) => {
+    const li = document.createElement("li");
+    li.style.setProperty("--i", String(i / (PASSES.length - 1)));
+    li.textContent = label;
+    li.addEventListener("click", () => setPass(i));
+    scrubTicks.appendChild(li);
+    return li;
   });
-  const allPassBtns = Array.from(document.querySelectorAll("[data-pass]"));
 
-  // timeline ticks
-  const tlBar = document.createElement("div");
-  tlBar.className = "timeline__bar";
-  timeline.appendChild(tlBar);
-  const minE = 10, maxE = 47;
-  const ticks = PASSES.map((p, i) => {
-    const t = document.createElement("button");
-    t.type = "button";
-    t.className = "timeline__tick";
-    t.tabIndex = -1;
-    t.style.left = "calc(12px + (100% - 24px) * " + ((p.eid - minE) / (maxE - minE)).toFixed(4) + ")";
-    t.addEventListener("click", () => setPass(i));
-    timeline.appendChild(t);
-    return t;
-  });
-  const tlLabel = document.createElement("span");
-  tlLabel.className = "timeline__label";
-  timeline.appendChild(tlLabel);
+  scrub.addEventListener("input", () => setPass(+scrub.value));
+  scrub.addEventListener("pointerdown", () => scrub.classList.add("is-dragging"));
+  window.addEventListener("pointerup", () => scrub.classList.remove("is-dragging"));
 
   let requestRender = function () {};
 
   function setPass(i) {
     pass = i;
-    allPassBtns.forEach((b) => b.setAttribute("aria-pressed", String(+b.dataset.pass === i)));
     ticks.forEach((t, k) => t.classList.toggle("is-current", k === i));
-    tlLabel.style.left = ticks[i].style.left;
-    tlLabel.textContent = "EID " + PASSES[i].eid;
+    if (+scrub.value !== i) scrub.value = String(i);
+    scrub.setAttribute("aria-valuetext", PASSES[i].name);
+    scrub.style.setProperty("--p", String(i / (PASSES.length - 1)));
     updateResLabel();
     requestRender();
   }
-
-  allPassBtns.forEach((b) => b.addEventListener("click", () => setPass(+b.dataset.pass)));
 
   channelBtns.forEach((b) => {
     b.addEventListener("click", () => {
@@ -152,14 +138,64 @@
     "vec2 march(vec3 ro, vec3 rd){ float t=0.02; float m=-1.0; for(int i=0;i<96;i++){ vec2 h=map(ro+rd*t); if(h.x<0.0008*t){ m=h.y; break;} t+=h.x; if(t>24.0) break; } return vec2(t,m); }",
     "vec3 calcNormal(vec3 p){ vec2 e=vec2(1.0,-1.0)*0.0006; return normalize(e.xyy*map(p+e.xyy).x+e.yyx*map(p+e.yyx).x+e.yxy*map(p+e.yxy).x+e.xxx*map(p+e.xxx).x); }",
     "float calcAO(vec3 p, vec3 n){ float o=0.0, s=1.0; for(int i=0;i<5;i++){ float h=0.02+0.12*float(i); o+=(h-map(p+n*h).x)*s; s*=0.85; } return clamp(1.0-2.2*o,0.0,1.0); }",
-    "float shadow(vec3 ro, vec3 rd){ float r=1.0, t=0.03; for(int i=0;i<40;i++){ float h=map(ro+rd*t).x; r=min(r,10.0*h/t); t+=clamp(h,0.02,0.25); if(r<0.002||t>8.0) break; } return clamp(r,0.0,1.0); }",
+    "float shadow(vec3 ro, vec3 rd){ float r=1.0, t=0.03; for(int i=0;i<48;i++){ float h=map(ro+rd*t).x; r=min(r,8.0*h/t); t+=clamp(h,0.02,0.25); if(r<0.002||t>8.0) break; } return smoothstep(0.0,1.0,clamp(r,0.0,1.0)); }",
+    "vec2 marchRefl(vec3 ro, vec3 rd){ float t=0.02; float m=-1.0; for(int i=0;i<48;i++){ vec2 h=map(ro+rd*t); if(h.x<0.002*t){ m=h.y; break;} t+=h.x; if(t>12.0) break; } return vec2(t,m); }",
     "vec3 albedo(vec3 p, float m){",
-    "  if(m<1.5){ float c = mod(floor(p.x*1.5)+floor(p.z*1.5),2.0); return mix(vec3(0.42,0.43,0.45), vec3(0.52,0.53,0.55), c); }",
-    "  if(m<2.5) return vec3(0.86,0.36,0.24);",
-    "  if(m<3.5) return vec3(0.18,0.62,0.58);",
-    "  return vec3(0.85,0.80,0.70);",
+    "  if(m<1.5){ float c = mod(floor(p.x*1.25)+floor(p.z*1.25),2.0); return mix(vec3(0.30,0.29,0.28), vec3(0.37,0.36,0.345), c); }",
+    "  if(m<2.5) return vec3(0.78,0.24,0.13);",
+    "  if(m<3.5) return vec3(0.04,0.48,0.46);",
+    "  return vec3(0.80,0.76,0.68);",
     "}",
-    "vec3 aces(vec3 x){ return clamp((x*(2.51*x+0.03))/(x*(2.43*x+0.59)+0.14),0.0,1.0); }",
+    "float roughness(float m){ return m<1.5 ? 0.38 : m<2.5 ? 0.42 : m<3.5 ? 0.18 : 0.75; }",
+    "const vec3 SUN_DIR = vec3(-0.5345, 0.7483, -0.3926);",
+    "const vec3 SUN = vec3(2.9, 2.6, 2.25);",
+    "vec3 env(vec3 d){ return mix(vec3(0.045,0.045,0.05), vec3(0.62,0.66,0.72), smoothstep(-0.25, 1.0, d.y)); }",
+    "vec3 cheapShade(vec3 p, vec3 n, float m){",
+    "  vec3 alb = albedo(p, m);",
+    "  return alb * (SUN*clamp(dot(n,SUN_DIR),0.0,1.0) + env(n)*0.6);",
+    "}",
+    "vec3 shade(vec3 p, vec3 n, vec3 rd, float m){",
+    "  vec3 alb = albedo(p, m);",
+    "  float r = roughness(m); float a = r*r; float a2 = a*a;",
+    "  vec3 V = -rd; vec3 L = SUN_DIR; vec3 H = normalize(L+V);",
+    "  float NdL = clamp(dot(n,L),0.0,1.0); float NdV = clamp(dot(n,V),0.001,1.0);",
+    "  float NdH = clamp(dot(n,H),0.0,1.0); float VdH = clamp(dot(V,H),0.0,1.0);",
+    "  float F0 = 0.04;",
+    "  float F = F0 + (1.0-F0)*pow(1.0-VdH, 5.0);",
+    "  float dn = NdH*NdH*(a2-1.0)+1.0; float D = a2/(3.14159*dn*dn);",
+    "  float k = (r+1.0)*(r+1.0)/8.0; float G = (NdL/(NdL*(1.0-k)+k))*(NdV/(NdV*(1.0-k)+k));",
+    "  float spec = D*G*F/(4.0*NdL*NdV+0.001);",
+    "  float sh = NdL > 0.0 ? shadow(p+n*0.003, L) : 0.0;",
+    "  vec3 direct = (alb*(1.0-F) + vec3(spec)*3.14159) * SUN * NdL * sh;",
+    "  float ao = calcAO(p, n);",
+    "  vec3 ambient = alb * (env(n)*0.85 + vec3(0.22,0.18,0.15)*clamp(-n.y*0.5+0.5,0.0,1.0)*0.35) * ao;",
+    "  float Fr = F0 + (1.0-F0)*pow(1.0-NdV, 5.0)*(1.0-r)*(1.0-r);",
+    "  vec3 R = reflect(rd, n);",
+    "  vec3 refl = env(R);",
+    "  if(r < 0.5){",
+    "    vec2 rh = marchRefl(p + n*0.01, R);",
+    "    if(rh.y > 0.0){ vec3 rp = p + n*0.01 + R*rh.x; refl = cheapShade(rp, calcNormal(rp), rh.y); }",
+    "  }",
+    "  return direct + ambient + refl*Fr*mix(1.0, ao, 0.6);",
+    "}",
+    "// AgX tone mapping and contrast curve",
+    "vec3 agxContrast(vec3 x){ vec3 x2=x*x; vec3 x4=x2*x2; return 15.5*x4*x2 - 40.14*x4*x + 31.96*x4 - 6.868*x2*x + 0.4298*x2 + 0.1191*x - 0.00232; }",
+    "vec3 agx(vec3 v){",
+    "  const mat3 m = mat3(0.842479062253094, 0.0423282422610123, 0.0423756549057051, 0.0784335999999992, 0.878468636469772, 0.0784336, 0.0792237451477643, 0.0791661274605434, 0.879142973793104);",
+    "  v = m*v;",
+    "  v = clamp(log2(max(v, vec3(1e-10))), -12.47393, 4.026069);",
+    "  v = (v + 12.47393) / 16.5;",
+    "  return agxContrast(v);",
+    "}",
+    "vec3 agxLook(vec3 v){",
+    "  v = pow(max(v, 0.0), vec3(1.15));",
+    "  float l = dot(v, vec3(0.2126, 0.7152, 0.0722));",
+    "  return l + 1.2*(v - l);",
+    "}",
+    "vec3 agxEotf(vec3 v){",
+    "  const mat3 mi = mat3(1.19687900512017, -0.0528968517574562, -0.0529716355144438, -0.0980208811401368, 1.15190312990417, -0.0980434501171241, -0.0990297440797205, -0.0989611768448433, 1.15107367264116);",
+    "  return mi*v;",
+    "}",
     "void main(){",
     "  vec2 uv = (2.0*gl_FragCoord.xy-uRes)/uRes.y;",
     "  float a = 0.75 + uTime*0.07;",
@@ -169,7 +205,7 @@
     "  vec3 rd = normalize(uv.x*uu + uv.y*vv + 2.1*ww);",
     "  vec2 h = march(ro, rd);",
     "  float hit = h.y > 0.0 ? 1.0 : 0.0;",
-    "  vec3 bg = mix(vec3(0.055,0.06,0.07), vec3(0.11,0.12,0.135), clamp(uv.y*0.5+0.6,0.0,1.0));",
+    "  vec3 bg = env(rd)*0.28;",
     "  vec3 col = vec3(0.0);",
     "  vec3 p = ro + rd*h.x;",
     "  vec3 n = hit > 0.5 ? calcNormal(p) : vec3(0.0);",
@@ -178,26 +214,15 @@
     "  else if(uPass < 2.5){ col = hit * albedo(p, h.y); }",
     "  else if(uPass < 3.5){ col = vec3(hit > 0.5 ? calcAO(p,n) : 0.0); }",
     "  else {",
-    "    vec3 lit = vec3(0.0);",
+    "    vec3 lit = bg;",
     "    if(hit > 0.5){",
-    "      vec3 alb = albedo(p, h.y);",
-    "      vec3 L = normalize(vec3(-0.55,0.75,-0.35));",
-    "      float dif = clamp(dot(n,L),0.0,1.0) * shadow(p+n*0.002, L);",
-    "      float ao = calcAO(p,n);",
-    "      vec3 H = normalize(L-rd);",
-    "      float spe = pow(clamp(dot(n,H),0.0,1.0), 48.0) * dif * (h.y < 1.5 ? 0.15 : 0.9);",
-    "      float sky = clamp(0.5+0.5*n.y,0.0,1.0);",
-    "      float rim = pow(clamp(1.0+dot(n,rd),0.0,1.0),3.0);",
-    "      lit = alb*(vec3(3.2,2.85,2.4)*dif + vec3(0.30,0.38,0.52)*sky*ao + vec3(0.55,0.32,0.22)*rim*ao*0.6) + vec3(3.0,2.8,2.5)*spe;",
-    "      float fog = 1.0-exp(-0.0035*h.x*h.x*h.x);",
+    "      lit = shade(p, n, rd, h.y);",
+    "      float fog = 1.0-exp(-0.0025*h.x*h.x*h.x);",
     "      lit = mix(lit, bg, clamp(fog,0.0,1.0));",
-    "    } else { lit = bg; }",
-    "    if(uPass < 4.5){ col = lit; }",
-    "    else {",
-    "      col = aces(lit*0.9);",
-    "      col = pow(col, vec3(1.0/2.2));",
-    "      vec2 q = gl_FragCoord.xy/uRes; col *= 0.55 + 0.45*pow(16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y), 0.18);",
     "    }",
+    "    col = agxEotf(agxLook(agx(lit*1.35)));",
+    "    col = clamp(col, 0.0, 1.0);",
+    "    vec2 q = gl_FragCoord.xy/uRes; col *= 0.82 + 0.18*pow(16.0*q.x*q.y*(1.0-q.x)*(1.0-q.y), 0.25);",
     "  }",
     "  vec4 c = vec4(col, hit);",
     "  float nm = dot(uMask, vec4(1.0));",

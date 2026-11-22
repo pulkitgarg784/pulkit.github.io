@@ -41,27 +41,15 @@
   <div class="workspace">
     <aside class="events" aria-labelledby="eventsTitle">
       <h2 class="panel__title" id="eventsTitle">Event Browser</h2>
-      <div class="events__cols" aria-hidden="true"><span>EID</span><span>Name</span></div>
       <ol class="tree">
-        <li>
-          <span class="tree__label"><svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.5L5 6.5l2.5-3" /></svg>Hero render passes</span>
-          <ol class="tree__children" id="passList">
-            <li><button type="button" class="event" data-pass="0" aria-pressed="false"><span class="eid">12</span>Depth</button></li>
-            <li><button type="button" class="event" data-pass="1" aria-pressed="false"><span class="eid">18</span>Normals</button></li>
-            <li><button type="button" class="event" data-pass="2" aria-pressed="false"><span class="eid">24</span>Albedo</button></li>
-            <li><button type="button" class="event" data-pass="3" aria-pressed="false"><span class="eid">31</span>Ambient occlusion</button></li>
-            <li><button type="button" class="event" data-pass="4" aria-pressed="false"><span class="eid">38</span>Lighting (HDR)</button></li>
-            <li><button type="button" class="event" data-pass="5" aria-pressed="true"><span class="eid">45</span>Final (tonemapped)</button></li>
-          </ol>
-        </li>
         <li>
           <span class="tree__label"><svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2.5 3.5L5 6.5l2.5-3" /></svg>Document</span>
           <ol class="tree__children" id="markerList">
-            <li><a class="event" href="#top"><span class="eid">50</span>Introduction</a></li>
-            <li><a class="event" href="#about"><span class="eid">52</span>About</a></li>
-            <li><a class="event" href="#experience"><span class="eid">60</span>Experience</a></li>
-            <li><a class="event" href="#projects"><span class="eid">71</span>Selected Projects</a></li>
-            <li><a class="event" href="#reel"><span class="eid">88</span>3D Portfolio</a></li>
+            <li><a class="event" href="#top">Introduction</a></li>
+            <li><a class="event" href="#about">About</a></li>
+            <li><a class="event" href="#experience">Experience</a></li>
+            <li><a class="event" href="#projects">Selected Projects</a></li>
+            <li><a class="event" href="#reel">3D Portfolio</a></li>
           </ol>
         </li>
       </ol>
@@ -103,7 +91,7 @@
         <div class="panel viewer">
           <div class="viewer__bar">
             <h2 class="panel__title">Texture Viewer</h2>
-            <span class="viewer__res" id="viewerRes">Final (tonemapped)</span>
+            <span class="viewer__res" id="viewerRes">Lighting</span>
             <div class="channels" role="group" aria-label="Visible channels">
               <button type="button" class="channel channel--r" data-ch="0" aria-pressed="true">R</button>
               <button type="button" class="channel channel--g" data-ch="1" aria-pressed="true">G</button>
@@ -111,12 +99,20 @@
               <button type="button" class="channel channel--a" data-ch="3" aria-pressed="false">A</button>
             </div>
           </div>
-          <div class="viewer__passes" role="group" aria-label="Render pass" id="passTabs"></div>
           <div class="viewer__stage" id="viewerStage">
             <canvas id="gl" role="img" aria-label="A real-time ray-marched scene of a sphere, a torus, and a rounded box on a floor, rendered in your browser."></canvas>
             <p class="viewer__fallback">WebGL isn't available in this browser, so the live render is off. Everything else on the page works.</p>
           </div>
-          <div class="timeline" id="timeline" aria-hidden="true"></div>
+          <div class="scrub">
+            <label class="scrub__label" for="passScrub">
+              <svg viewBox="0 0 16 10" aria-hidden="true"><path d="M5 1.5L1.5 5 5 8.5M11 1.5L14.5 5 11 8.5M1.5 5h13" /></svg>
+              Drag to scrub passes
+            </label>
+            <div class="scrub__track">
+              <input type="range" id="passScrub" min="0" max="4" step="1" value="4" />
+              <ol class="scrub__ticks" id="scrubTicks" aria-hidden="true"></ol>
+            </div>
+          </div>
           <div class="viewer__status">
             <span class="pixel" id="pixelPos">Hover the image to read a pixel</span>
             <span class="swatch" id="pixelSwatch" aria-hidden="true"></span>
@@ -216,22 +212,20 @@
             <button class="filter" data-filter="game" aria-pressed="false">Games</button>
             <button class="filter" data-filter="development" aria-pressed="false">Development</button>
           </div>
-          <p class="filters__status" id="projectsStatus" role="status" aria-live="polite">8 of 8 events</p>
+          <p class="filters__status" id="projectsStatus" role="status" aria-live="polite">8 of 8 projects</p>
         </div>
 
         <div class="table__head" aria-hidden="true">
-          <span>EID</span><span>Name</span><span>Category</span><span>Description</span><span>Links</span>
+          <span>Name</span><span>Category</span><span>Description</span><span>Links</span>
         </div>
         <ul class="table" id="projectsList">
           <li class="trow" data-tags="research tools">
-            <span class="eid">72</span>
             <h3>Vulkan Fluid Simulation</h3>
             <span class="tags">research, tools</span>
             <p>A highly optimized real-time GPU particle-based fluid simulation with photorealistic rendering, on a custom-built Vulkan rendering engine.</p>
             <span class="links"><a class="ext" href="https://github.com/pulkitgarg784/FluidSim" target="_blank" rel="noopener">Code</a></span>
           </li>
           <li class="trow" data-tags="tools">
-            <span class="eid">74</span>
             <h3>Voksel</h3>
             <span class="tags">tools</span>
             <p>A cross-platform open-source 3D modeling tool for voxel-based game asset creation, built with Unity, C#, and HLSL.</p>
@@ -241,7 +235,6 @@
             </span>
           </li>
           <li class="trow" data-tags="game">
-            <span class="eid">76</span>
             <h3>Pashu</h3>
             <span class="tags">game</span>
             <p>A real-time strategy game about running an animal shelter - animal AI, resource management, and a time-of-day system. Featured in the GitHub Education program portfolio.</p>
@@ -251,7 +244,6 @@
             </span>
           </li>
           <li class="trow" data-tags="game">
-            <span class="eid">78</span>
             <h3>SpaceLine</h3>
             <span class="tags">game</span>
             <p>A physics-based space sandbox with real-time gravity and climate simulation, plus a VR mode built with SteamVR. Won NASA Space Apps India and was a global finalist.</p>
@@ -261,28 +253,24 @@
             </span>
           </li>
           <li class="trow" data-tags="development">
-            <span class="eid">80</span>
             <h3>Prepto</h3>
             <span class="tags">development</span>
             <p>A cross-platform React Native app for real-time competitive test prep, using Firebase for auth, matchmaking, and real-time data.</p>
             <span class="links"><a class="ext" href="https://github.com/prepto" target="_blank" rel="noopener">Code</a></span>
           </li>
           <li class="trow" data-tags="development">
-            <span class="eid">82</span>
             <h3>Certify</h3>
             <span class="tags">development</span>
             <p>A Web3 platform for creating, storing, and verifying certificates as NFTs on the Solana blockchain.</p>
             <span class="links"><a class="ext" href="https://github.com/certify-sol" target="_blank" rel="noopener">Code</a></span>
           </li>
           <li class="trow" data-tags="development tools">
-            <span class="eid">84</span>
             <h3>TxtScribe</h3>
             <span class="tags">development, tools</span>
             <p>An image-to-text transcription tool that uses NLP to correct, complete, and summarize handwritten text.</p>
             <span class="links"><a class="ext" href="https://github.com/pulkitgarg784/txtscribe" target="_blank" rel="noopener">Code</a></span>
           </li>
           <li class="trow" data-tags="research tools">
-            <span class="eid">86</span>
             <h3>Terrain Generator</h3>
             <span class="tags">research, tools</span>
             <p>A parametric 2D terrain generator built with WebGL and Perlin noise to create world maps and shaded heightmap falloffs.</p>

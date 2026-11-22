@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Pulkit Garg - Computer Science @ UWaterloo. Real-time graphics, geometry processing, and creative software." />
-  <meta name="theme-color" content="#fdfbf3" />
+  <meta name="theme-color" content="#e3e6e9" />
   <title>Pulkit Garg - Personal Portfolio</title>
 
   <!-- Hopefully this will make the site finally work with my linkeidn -->
@@ -16,61 +16,98 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Martian+Mono:wght@400;500&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
+  <header class="bar">
+    <div class="bar__id">
+      <svg class="bar__mark" viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="6.5" /><circle cx="10" cy="10" r="2.2" /></svg>
+      <h1 class="bar__title">Pulkit Garg</h1>
+      <span class="bar__path">/obj/pulkit_garg</span>
+    </div>
+    <nav class="bar__nav" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#reel">Reel</a>
+      <a href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+      <a href="mailto:pulkitgarg784@gmail.com">Email</a>
+    </nav>
+  </header>
+
   <main id="main">
-    <section class="hero">
-      <div class="hero__field" id="heroField" aria-hidden="true">
-        <canvas></canvas>
-        <div class="static-fallback"></div>
+    <section class="editor" aria-label="Network of Pulkit's work">
+      <div class="network" id="network">
+        <div class="network__toolbar">
+          <div class="filters" role="group" aria-label="Filter projects by category">
+            <button class="filter" data-filter="all" aria-pressed="true">All</button>
+            <button class="filter" data-filter="research" aria-pressed="false">Research</button>
+            <button class="filter" data-filter="tools" aria-pressed="false">Tools</button>
+            <button class="filter" data-filter="game" aria-pressed="false">Games</button>
+            <button class="filter" data-filter="development" aria-pressed="false">Development</button>
+          </div>
+          <p class="network__status" id="projectsStatus" role="status" aria-live="polite">8 projects cooking</p>
+        </div>
+        <div class="network__scroll">
+          <div class="network__canvas" id="networkCanvas">
+            <svg class="network__wires" id="networkWires" aria-hidden="true"></svg>
+          </div>
+        </div>
+        <p class="network__hint"><span class="hint--wide">Click a node to inspect it. Drag to rearrange. Arrow keys follow the wires.</span><span class="hint--narrow">Tap a node to inspect it. Swipe sideways to see where the work feeds.</span></p>
       </div>
-      <div class="hero__inner">
-        <div class="hero__content reveal">
-          <h1 class="hero__title">
-            Hi, I'm Pulkit<br />
+
+      <aside class="params" id="params" aria-labelledby="paramsName">
+        <div class="params__head">
+          <span class="params__icon params__icon--out" id="paramsIcon" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><circle cx="10" cy="10" r="6.5" /><circle cx="10" cy="10" r="2.2" /></svg>
+          </span>
+          <span class="params__type" id="paramsType">Output</span>
+          <span class="params__name" id="paramsName">pulkit_garg</span>
+        </div>
+        <div class="params__body" id="paramsBody">
+          <p class="display">
+            Hi, I'm Pulkit.<br />
             I build <em>real-time graphics</em><br />
-            & creative software.
-          </h1>
-          <p class="hero__lead">
+            &amp; creative software.
+          </p>
+          <p class="params__lead">
             Computer Science @ University of Waterloo, specializing in Computational Fine Arts
             with a minor in Cognitive Science. I work at the intersection of real-time graphics,
             geometry processing, and game development.
           </p>
-          <ul class="hero__socials">
-            <li><a href="https://www.linkedin.com/in/pulkitgarg784" target="_blank" rel="noopener">LinkedIn</a></li>
-            <li><a href="https://github.com/pulkitgarg784" target="_blank" rel="noopener">GitHub</a></li>
-            <li><a href="https://pulkitgarg.itch.io/" target="_blank" rel="noopener">itch.io</a></li>
-          </ul>
-          <div class="hero__actions">
+          <dl class="parms">
+            <div><dt>Currently</dt><dd>Graphics Programming Intern at SideFX, on Houdini's viewport.</dd></div>
+            <div><dt>Focus</dt><dd>Real-time rendering · Geometry processing · Creative tools</dd></div>
+            <div><dt>Say hi</dt><dd><a href="mailto:pulkitgarg784@gmail.com">pulkitgarg784@gmail.com</a></dd></div>
+          </dl>
+          <div class="actions">
             <a class="btn btn--primary" href="#projects">View projects</a>
-            <a class="btn btn--ghost" href="https://www.artstation.com/pulkitgarg" target="_blank" rel="noopener">Artwork</a>
-            <a class="btn btn--ghost" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+            <a class="btn" href="resume.pdf" target="_blank" rel="noopener">Resume</a>
+            <a class="btn" href="https://www.artstation.com/pulkitgarg" target="_blank" rel="noopener">Artwork</a>
           </div>
+          <ul class="socials">
+            <li><a class="ext" href="https://www.linkedin.com/in/pulkitgarg784" target="_blank" rel="noopener">LinkedIn</a></li>
+            <li><a class="ext" href="https://github.com/pulkitgarg784" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a class="ext" href="https://pulkitgarg.itch.io/" target="_blank" rel="noopener">itch.io</a></li>
+          </ul>
         </div>
-      </div>
-      <a class="hero__scroll" href="#about" aria-label="Scroll to about section">
-        <span class="hero__scroll-arrow" aria-hidden="true"></span>
-      </a>
+      </aside>
     </section>
 
-    <section class="section" id="about">
-      <div class="section__head reveal">
-        <h2 class="section__title">About</h2>
-      </div>
-      <div class="about reveal">
+    <section class="pane" id="about" aria-labelledby="aboutTitle">
+      <h2 class="pane__tab" id="aboutTitle">About</h2>
+      <div class="pane__body about">
         <div class="about__body">
           <p>
-           Hi! I love building cool interactive experiences and my experience spans C++, Vulkan, OpenGL, Game Development using Unity/Unreal Engine, and Virtual Reality.
+            Hi! I love building cool interactive experiences and my experience spans C++, Vulkan, OpenGL, Game Development using Unity/Unreal Engine, and Virtual Reality.
           </p>
           <p>
             I'm currently a <strong>Graphics Programming Intern at
             <a href="https://www.sidefx.com" target="_blank" rel="noopener">SideFX</a></strong>,
             working on performance-critical, cross-platform rendering for Houdini. I built core
-            Vulkan viewport functionality with which included creating multiple Vulkan libraries and a GPU text-rendering pipeline
+            Vulkan viewport functionality, which included creating multiple Vulkan libraries and a GPU text-rendering pipeline
             using bitmap fonts and texture atlases.
           </p>
           <p>
@@ -91,165 +128,133 @@
             cooking, playing Kerbal Space Program, or at a hackathon.
           </p>
         </div>
-        <dl class="facts">
-          <div class="facts__row">
-            <dt>Currently</dt>
-            <dd>Graphics Programming Intern at SideFX, on Houdini's viewport.</dd>
-          </div>
-          <div class="facts__row">
-            <dt>Focus</dt>
-            <dd>Real-time rendering · Geometry processing · Creative tools</dd>
-          </div>
-          <div class="facts__row">
-            <dt>Say hi</dt>
-            <dd><a href="mailto:pulkitgarg784@gmail.com">pulkitgarg784@gmail.com</a></dd>
-          </div>
-        </dl>
+        <figure class="about__photo">
+          <img src="headshot.jpg" alt="Pulkit Garg" width="320" height="320" loading="lazy" />
+        </figure>
       </div>
     </section>
 
-    <section class="section" id="projects">
-      <div class="section__head reveal">
-        <h2 class="section__title">Selected Projects</h2>
+    <section class="pane" id="projects" aria-labelledby="projectsTitle">
+      <h2 class="pane__tab" id="projectsTitle">Selected Projects</h2>
+      <div class="pane__body pane__body--flush">
+        <div class="sheet__head" aria-hidden="true">
+          <span></span><span>Name</span><span>Category</span><span>Description</span><span>Links</span>
+        </div>
+        <ul class="sheet" id="projectsList">
+          <li class="row" data-node="vulkan_fluid_sim" data-group="graphics" data-tags="research tools">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">Vulkan Fluid Simulation</button></h3>
+            <span class="row__tags"><span>research</span><span>tools</span></span>
+            <p class="row__desc">A highly optimized real-time GPU particle-based fluid simulation with photorealistic rendering, on a custom-built Vulkan rendering engine.</p>
+            <span class="row__links">
+              <a class="ext" href="https://github.com/pulkitgarg784/FluidSim" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="terrain_generator" data-group="graphics" data-tags="research tools">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">Terrain Generator</button></h3>
+            <span class="row__tags"><span>research</span><span>tools</span></span>
+            <p class="row__desc">A parametric 2D terrain generator built with WebGL and Perlin noise to create world maps and shaded heightmap falloffs.</p>
+            <span class="row__links">
+              <a class="ext" href="https://pulkitgarg784.github.io/Unity-Terrain-Generator/" target="_blank" rel="noopener">Demo</a>
+              <a class="ext" href="https://github.com/pulkitgarg784/Unity-Terrain-Generator" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="voksel" data-group="graphics" data-tags="tools">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">Voksel</button></h3>
+            <span class="row__tags"><span>tools</span></span>
+            <p class="row__desc">A cross-platform open-source 3D modeling tool for voxel-based game asset creation, built with Unity, C#, and HLSL.</p>
+            <span class="row__links">
+              <a class="ext" href="https://github.com/pulkitgarg784/Voksel/releases/tag/v1.1" target="_blank" rel="noopener">Download</a>
+              <a class="ext" href="https://github.com/pulkitgarg784/Voksel" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="pashu" data-group="games" data-tags="game">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">Pashu</button></h3>
+            <span class="row__tags"><span>game</span></span>
+            <p class="row__desc">A real-time strategy game about running an animal shelter - animal AI, resource management, and a time-of-day system. Featured in the GitHub Education program portfolio.</p>
+            <span class="row__links">
+              <a class="ext" href="https://github.com/pulkitgarg784/Pashu/releases/download/v1.0/Pashu.zip" target="_blank" rel="noopener">Download</a>
+              <a class="ext" href="https://github.com/pulkitgarg784/Pashu" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="spaceline" data-group="games" data-tags="game">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">SpaceLine</button></h3>
+            <span class="row__tags"><span>game</span></span>
+            <p class="row__desc">A physics-based space sandbox with real-time gravity and climate simulation, plus a VR mode built with SteamVR. Won NASA Space Apps India and was a global finalist.</p>
+            <span class="row__links">
+              <a class="ext" href="https://pulkitgarg.itch.io/spaceline" target="_blank" rel="noopener">Play</a>
+              <a class="ext" href="https://github.com/pulkitgarg784/SpaceLine_NasaSpaceapps" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="prepto" data-group="apps" data-tags="development">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">Prepto</button></h3>
+            <span class="row__tags"><span>development</span></span>
+            <p class="row__desc">A cross-platform React Native app for real-time competitive test prep, using Firebase for auth, matchmaking, and real-time data.</p>
+            <span class="row__links">
+              <a class="ext" href="https://github.com/prepto" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="certify" data-group="apps" data-tags="development">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">Certify</button></h3>
+            <span class="row__tags"><span>development</span></span>
+            <p class="row__desc">A Web3 platform for creating, storing, and verifying certificates as NFTs on the Solana blockchain.</p>
+            <span class="row__links">
+              <a class="ext" href="https://github.com/certify-sol" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+
+          <li class="row" data-node="txtscribe" data-group="apps" data-tags="development tools">
+            <span class="row__flag" aria-hidden="true"></span>
+            <h3 class="row__name"><button type="button" class="row__select">TxtScribe</button></h3>
+            <span class="row__tags"><span>development</span><span>tools</span></span>
+            <p class="row__desc">An image-to-text transcription tool that uses NLP to correct, complete, and summarize handwritten text.</p>
+            <span class="row__links">
+              <a class="ext" href="https://github.com/pulkitgarg784/txtscribe" target="_blank" rel="noopener">Code</a>
+            </span>
+          </li>
+        </ul>
+        <p class="sheet__empty" id="projectsEmpty">No projects in this category yet - try another filter.</p>
       </div>
-
-      <div class="filters reveal" role="group" aria-label="Filter projects by category">
-        <button class="filter" data-filter="all" aria-pressed="true">All</button>
-        <button class="filter" data-filter="research" aria-pressed="false">Research</button>
-        <button class="filter" data-filter="tools" aria-pressed="false">Tools</button>
-        <button class="filter" data-filter="game" aria-pressed="false">Games</button>
-        <button class="filter" data-filter="development" aria-pressed="false">Development</button>
-      </div>
-
-      <p class="projects__status" role="status" aria-live="polite" id="projectsStatus"></p>
-
-      <ul class="projects" id="projectsList">
-        <li class="project reveal" data-tags="research tools">
-          <div class="project__top">
-            <h3>Vulkan Fluid Simulation</h3>
-            <div class="project__tags"><span>research</span><span>tools</span></div>
-          </div>
-          <p>A highly optimized real-time GPU particle-based fluid simulation with photorealistic rendering, on a custom-built Vulkan rendering engine.</p>
-          <div class="project__links">
-            <a href="https://github.com/pulkitgarg784/FluidSim" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="tools">
-          <div class="project__top">
-            <h3>Voksel</h3>
-            <div class="project__tags"><span>tools</span></div>
-          </div>
-          <p>A cross platfrom open-source 3D modeling tool for voxel-based game asset creation, built with Unity, C#, and HLSL.</p>
-          <div class="project__links">
-            <a href="https://github.com/pulkitgarg784/Voksel/releases/tag/v1.1" target="_blank" rel="noopener">Download ↗</a>
-            <a href="https://github.com/pulkitgarg784/Voksel" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="game">
-          <div class="project__top">
-            <h3>Pashu</h3>
-            <div class="project__tags"><span>game</span></div>
-          </div>
-          <p>A real-time strategy game about running an animal shelter - animal AI, resource management, and a time-of-day system. Featured in the GitHub Education program portfolio.</p>
-          <div class="project__links">
-            <a href="https://github.com/pulkitgarg784/Pashu/releases/download/v1.0/Pashu.zip" target="_blank" rel="noopener">Download ↗</a>
-            <a href="https://github.com/pulkitgarg784/Pashu" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="game">
-          <div class="project__top">
-            <h3>SpaceLine</h3>
-            <div class="project__tags"><span>game</span></div>
-          </div>
-          <p>A physics-based space sandbox with real-time gravity and climate simulation, plus a VR mode built with SteamVR. Won NASA Space Apps India and was a global finalist.</p>
-          <div class="project__links">
-            <a href="https://pulkitgarg.itch.io/spaceline" target="_blank" rel="noopener">Play ↗</a>
-            <a href="https://github.com/pulkitgarg784/SpaceLine_NasaSpaceapps" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="development">
-          <div class="project__top">
-            <h3>Prepto</h3>
-            <div class="project__tags"><span>development</span></div>
-          </div>
-          <p>A cross-platform React Native app for real-time competitive test prep, using Firebase for auth, matchmaking, and real-time data.</p>
-          <div class="project__links">
-            <a href="https://github.com/prepto" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="development">
-          <div class="project__top">
-            <h3>Certify</h3>
-            <div class="project__tags"><span>development</span></div>
-          </div>
-          <p>A Web3 platform for creating, storing, and verifying certificates as NFTs on the Solana blockchain.</p>
-          <div class="project__links">
-            <a href="https://github.com/certify-sol" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="development tools">
-          <div class="project__top">
-            <h3>TxtScribe</h3>
-            <div class="project__tags"><span>development</span><span>tools</span></div>
-          </div>
-          <p>An image-to-text transcription tool that uses NLP to correct, complete, and summarize handwritten text.</p>
-          <div class="project__links">
-            <a href="https://github.com/pulkitgarg784/txtscribe" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-
-        <li class="project reveal" data-tags="research tools">
-          <div class="project__top">
-            <h3>Terrain Generator</h3>
-            <div class="project__tags"><span>research</span><span>tools</span></div>
-          </div>
-          <p>A parametric 2D terrain generator built with WebGL and Perlin noise to create world maps and shaded heightmap falloffs.</p>
-          <div class="project__links">
-            <a href="https://pulkitgarg784.github.io/Unity-Terrain-Generator/" target="_blank" rel="noopener">Demo ↗</a>
-            <a href="https://github.com/pulkitgarg784/Unity-Terrain-Generator" target="_blank" rel="noopener">Code ↗</a>
-          </div>
-        </li>
-      </ul>
-
-      <div class="projects__empty" id="projectsEmpty">No projects in this category yet - try another filter.</div>
     </section>
 
-    <!-- 3D Portfolio reel -->
-    <section class="section" id="portfolio">
-      <div class="section__head reveal">
-        <h2 class="section__title">3D Portfolio</h2>
-      </div>
-      <div class="portfolio__video reveal">
-        <iframe
-          src="https://www.youtube.com/embed/3P80bAqu3zw"
-          title="Pulkit Garg 3D portfolio"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          loading="lazy"
-          allowfullscreen></iframe>
+    <section class="pane" id="reel" aria-labelledby="reelTitle">
+      <h2 class="pane__tab" id="reelTitle">3D Portfolio</h2>
+      <div class="pane__body pane__body--flush">
+        <div class="viewport">
+          <iframe
+            src="https://www.youtube.com/embed/3P80bAqu3zw"
+            title="Pulkit Garg 3D portfolio"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            loading="lazy"
+            allowfullscreen></iframe>
+        </div>
       </div>
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="footer__inner">
-      <p>Made with ♥ by Pulkit Garg.</p>
-      <div class="footer__links">
-        <a href="https://www.linkedin.com/in/pulkitgarg784" target="_blank" rel="noopener">LinkedIn</a>
-        <a href="https://www.artstation.com/pulkitgarg" target="_blank" rel="noopener">ArtStation</a>
-        <a href="https://pulkitgarg.itch.io/" target="_blank" rel="noopener">itch.io</a>
-        <a href="https://github.com/pulkitgarg784" target="_blank" rel="noopener">GitHub</a>
-        <a href="mailto:pulkitgarg784@gmail.com">Email</a>
-      </div>
-    </div>
+  <footer class="status">
+    <p>Made with ♥ by Pulkit Garg.</p>
+    <nav class="status__links" aria-label="Elsewhere">
+      <a href="https://www.linkedin.com/in/pulkitgarg784" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://www.artstation.com/pulkitgarg" target="_blank" rel="noopener">ArtStation</a>
+      <a href="https://pulkitgarg.itch.io/" target="_blank" rel="noopener">itch.io</a>
+      <a href="https://github.com/pulkitgarg784" target="_blank" rel="noopener">GitHub</a>
+      <a href="mailto:pulkitgarg784@gmail.com">Email</a>
+    </nav>
   </footer>
 
-  <script src="fractaltree.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

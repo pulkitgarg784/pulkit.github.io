@@ -1,47 +1,45 @@
 # Design
 
-The site is a node network editor, modelled on Houdini's network view and parameter pane. Pulkit's work is a graph of real nodes (experience and projects) wired through category merges into one output node, `pulkit_garg`. Selecting a node opens its parameters. Everything below the editor uses the same pane language.
+The site is one captured GPU frame, modelled on RenderDoc and PIX. The left rail is an Event Browser: the hero's render passes plus document markers for each section. The first screen pairs a Capture Summary (the intro) with a Texture Viewer. The viewer runs a real ray-marched WebGL scene, and visitors can step through its passes (depth, normals, albedo, AO, HDR lighting, final), toggle R/G/B/A channels, and read pixel values under the cursor. Experience reads like an API inspector's call list, and projects sit in a numbered event table.
 
 ## Colour
 
-Light, cool-grey tool UI, read in daylight at a desk. Colour carries meaning, never decoration.
+Dark tool chrome, matching the debuggers graphics engineers use daily. Colour marks state.
 
 | Token | Value | Role |
 |---|---|---|
-| `--canvas` | `#e3e6e9` | Page and network canvas, with a 22px dot grid (`--dot #c3c9cf`) |
-| `--pane` | `#f4f5f6` | Panes, bar, status bar |
-| `--surface` | `#ffffff` | Nodes, fields, buttons, table rows |
-| `--ink` / `--text` / `--muted` | `#1b2127` / `#2b333b` / `#56616b` | Text roles |
-| `--display` | `#2b5fc4` | Display flag, the output node, links, emphasis |
-| `--select` | `#f0b429` | Selected node outline and bypass stripes, never text |
-| `--c-exp` `--c-graphics` `--c-games` `--c-apps` `--c-merge` | `#4b5661` `#c4513a` `#2e8460` `#9a6d17` `#6a5aa8` | Node type chips only |
+| `--bg` / `--panel` / `--panel-2` | `#15171a` / `#1c1f23` / `#22262b` | Page, panels, panel title bars |
+| `--line` / `--line-strong` | `#2d3238` / `#3d434b` | Panel borders, row rules |
+| `--ink` / `--text` / `--muted` | `#f2f4f6` / `#d3d8dd` / `#949da6` | Text roles |
+| `--current` | `#5ec7c0` | Current event, links, primary button, selected filter |
+| `--marker` | `#f08a63` | Debug-marker groups, headline emphasis, argument names, categories |
+| `--ch-r/g/b/a` | `#ef5a5f` `#45c07a` `#5b97f5` `#c9ced3` | Channel toggles only |
 
 ## Type
 
-- **Archivo** (variable width and weight) for everything readable. The display line is 800 weight at 88% width with -0.025em tracking. Bar and pane titles are 700 weight at 112% width.
-- **Martian Mono** only for identifiers and values: node names, the parameter name field, categories, status counts.
+- **Geologica** for everything readable. The display line is 800 weight with -0.03em tracking. Section titles are 700 weight at 1.35rem.
+- **Fragment Mono** only for identifiers and measurements: EIDs, file names, argument names, tags, resolution, pixel values, frame time.
 
 ## Components
 
-- **Node:** a 200×34 white tile with a 3px radius. Inside are a bypass flag, a coloured type chip with an authored 1.7-stroke icon, a mono label, and a display flag. Ports are 7px circles.
-  - Selected: yellow outline and tint.
-  - Bypassed: 55% opacity with yellow and black stripes on the bypass flag.
-  - Display: the blue end flag.
-- **Wire:** a cubic bezier, 1.4px `#6d767e`. Wires connected to the selected node turn ink at 2.2px. Bypassed wires are dashed at 25%.
-- **Parameter row:** a right-aligned muted label next to a white bordered field.
-- **Button:** a 3px-radius rectangle with a 1px border. The primary button is solid ink and turns display blue on hover. No pill shapes.
-- **Filter:** a segmented control. The selected segment is ink.
-- **Pane:** a tab heading attached to a bordered `--pane` body, with no shadow.
-- **Spreadsheet:** a zebra-striped table with a flag column that shows bypass stripes.
+- **Panel:** a 4px-radius bordered box with a 34px muted title bar. Large section titles get a 48px bar.
+- **Event row:** a mono EID beside a name. The current row gets a teal tint and a teal EID. There's no coloured side stripe.
+- **Buttons:** 4px-radius rectangles. The primary button is solid teal with dark text.
+- **Filters:** a segmented control. The selected segment is teal.
+- **Channel toggles:** small square buttons filled with their channel colour when on.
+- **Timeline:** a pass tick strip under the viewer. The current tick is teal, with its EID label.
+- **Experience call:** the name, role and badge on one line, then mono argument names (`work`, `api`, `stack`, `engine`) beside values.
+- **Event table:** zebra rows with columns EID, Name, Category, Description and Links.
 
-## Motion
+## Motion and rendering
 
-There is one authored moment. On load, wires draw in from the leaves to the merges to the output, about 1.7s in total. Then the output's display flag turns blue. The parameter pane eases in on each selection. Both are skipped when the visitor's system is set to reduce motion.
+- The scene orbits slowly in real time. It pauses when it's off-screen or the tab is hidden.
+- If frame time stays above 45ms, the render resolution drops.
+- With reduced motion on, the viewer draws one static frame, and only redraws when you change a pass or channel.
+- Without WebGL, the viewer shows a plain message and the rest of the page is unaffected.
 
-## Interaction
+## Responsive
 
-- Nodes can be dragged, and the wires follow live.
-- Arrow keys walk the graph: up and down within a column, right to the output, left to the first input.
-- Filters bypass project nodes and table rows. Nothing disappears.
-- Clicking a table row selects its node in the graph.
-- Below 1000px the parameter pane stacks first, and the graph becomes a fixed 760px canvas that scrolls sideways.
+- Below 1180px, the summary stacks above the viewer.
+- Below 900px, the rail is hidden and the passes become a horizontal tab strip above the image.
+- Project rows stack into an EID column next to the content.
